@@ -1,16 +1,33 @@
+import { useStepperStore } from '@/store/stepper';
+import { FormPayload } from '@/types';
 import { Plus, Trash } from 'lucide-react';
-import { useFieldArray } from 'react-hook-form';
+import { useFieldArray, useFormContext } from 'react-hook-form';
 import * as Form from '../form';
 import { Button } from '../ui/button';
+import { Header } from '../ui/header';
 import { PickColor } from './pick-color';
 
 export const ColorForm = () => {
+  const { handleSubmit } = useFormContext<FormPayload['colors']>();
   const { fields, append, remove } = useFieldArray({
     name: 'colors',
   });
 
+  const handleNextStep = useStepperStore(state => state.handleNextStep);
+
+  const handleSubmitColors = (payload: FormPayload['colors']) => {
+    handleNextStep(payload);
+  };
+
   return (
     <div>
+      <Header title="Color" subTitle="Enter and choose the colors you want to use" />
+
+      <p className="stepper__text">
+        If you want to group codes, prefix them with the same name (only the last two parts will be
+        used). You can group the colors after <strong>Effects step</strong>. Lezgo! 🚀
+      </p>
+
       <div className="flex items-center justify-between mb-6">
         <h3 className="text-xl font-medium">Add new color</h3>
         <Button size={'icon'} onClick={() => append({ name: '', hex_code: '' })}>
@@ -35,6 +52,12 @@ export const ColorForm = () => {
           </Button>
         </div>
       ))}
+
+      <div className="text-right my-10">
+        <Button type="submit" onClick={handleSubmit(handleSubmitColors)}>
+          Next
+        </Button>
+      </div>
     </div>
   );
 };

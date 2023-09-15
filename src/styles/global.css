@@ -7,3 +7,21 @@
     @apply leading-[1.6] text-base bg-slate-100;
   }
 }
+
+@layer components {
+  .stepper__header {
+    @apply border-b border-gray-300 pb-4;
+  }
+
+  .stepper__heading {
+    @apply font-semibold text-2xl;
+  }
+
+  .stepper__sub-heading {
+    @apply text-gray-500 mt-1;
+  }
+
+  .stepper__text {
+    @apply text-gray-600 my-6;
+  }
+}
